@@ -1,0 +1,124 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: #eee;
+}
+
+.header{
+    background: #fff;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.header .logo{
+    height: 100%;
+    padding: 10px;
+    margin-left: 2%;
+}
+
+.logo img{
+    height: 100%;
+}
+
+.formLogin{
+    margin-right: 20px;
+}
+
+.formLogin input{
+    width: 160px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 0;
+    background: #eee;
+    margin: 0 5px;
+}
+
+.formLogin button{
+    height: 30px;
+    border-radius: 5px;
+    border: 0;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.formLogin a{
+    margin-left: 20px;
+    margin-right: 10px;
+    font-size: 15px;
+}
+
+.use span{
+    font-weight: bold;
+    font-size: 25px;
+    margin-right: 15px;
+}
+
+.use a{
+    background: rgb(5, 13, 244);
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    text-decoration: none;
+    margin-right: 50px;
+}
+
+.modalCriarConta{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.formCriarConta{
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+}
+
+.formCriarConta input,
+.formCriarConta button{
+    width: 100%;
+    height: 30px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border: 1px solid #ccc;
+}
+
+.formCriarConta button{
+    background-color: #0095f6;
+    cursor: pointer;
+    color: white;
+}
+
+.closeModalCriar{
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    color: white;
+    line-height: 30px;
+    border-radius: 15px;
+    background: #0095f6;
+}
