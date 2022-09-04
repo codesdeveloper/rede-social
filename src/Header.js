@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react';
 import { auth, storage, db } from './firebase.js';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import { addDoc, disableNetwork, doc, setDoc, onSnapshot, query, orderBy, limit } from "firebase/firestore";
+import { async } from '@firebase/util';
 
 function Header(props) {
+
+    useEffect(() => {
+
+    }, []);
 
     const [progress, setProgress] = useState(0);
     const [file, setFile] = useState(null);
@@ -65,30 +72,32 @@ function Header(props) {
         const uploadTask = uploadBytesResumable(ref(storage, 'image/' + file.nama), file);
 
         uploadTask.on('state_changed',
-          (snap) => {
-            let progIt = Math.round(snap.bytesTransferred / snap.totalBytes) * 100;
-            setProgress(prog);
-        }, (erro) => {
-            alert(erro);
-        }, (sucesso) => { 
+            (snap) => {
+                let progIt = Math.round(snap.bytesTransferred / snap.totalBytes) * 100;
+                setProgress(prog);
+            }, (erro) => {
+                alert(erro);
+            }, (sucesso) => {
+                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                    let coll = collection(db, 'post');
 
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                db
-                .collection('post')
-                .add({
-                    titulo: titulo,
-                    image: url,
-                    userName: props.name,
-                    timestamp: new Date()
-                })
-
-                setProgress(0);
-                setFile(null);
-                alert('Upload concluido com sucesso!');
-                document.getElementById('upload-form').reset();
-
+                    var setItens = async () => {
+                        let resp = await addDoc(coll, {
+                            name: 11,
+                            titulo: titulo,
+                            image: url,
+                            userName: props.name,
+                            timestamp: new Date()
+                        });
+                        console.log(resp);
+                    };
+                    setItens();
+                    setProgress(0);
+                    setFile(null);
+                    alert('Upload concluido com sucesso!');
+                    document.getElementById('upload-form').reset();
+                });
             });
-        });
     }
 
     return (

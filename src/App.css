@@ -125,7 +125,7 @@ body{
 
 
 .modalUpload{
-    adisplay: none;
+    display: none;
     position: fixed;
     left: 0;
     top: 0;
@@ -173,4 +173,37 @@ body{
     line-height: 30px;
     border-radius: 15px;
     background: #0095f6;
+}
+
+.postSingle{
+background: white;
+max-width: 700px;
+margin: 10px auto;
+}
+
+.postSingle img{
+    width: 100%;
+}
+
+.postSingle p{
+    padding: 10px;
+}
+
+.postSingle form{
+    padding: 20px;
+}
+
+.postSingle textarea{
+    width: 100%;
+    height: 120px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.postSingle input[type=submit]{
+    background-color: #0095f6;
+    cursor: pointer;
+    color: white;
+    border: 0;
+    padding: 8px 10px;
 }
