@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 import { auth, storage, db } from './firebase.js';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-import { addDoc, disableNetwork, doc, setDoc, onSnapshot, query, orderBy, limit } from "firebase/firestore";
-import { async } from '@firebase/util';
+import { addDoc, collection, getDocs, setDoc, doc, orderBy, query } from 'firebase/firestore/lite';
 
 function Header(props) {
 
@@ -14,6 +12,7 @@ function Header(props) {
 
     const [progress, setProgress] = useState(0);
     const [file, setFile] = useState(null);
+    //const [posts, setPosts] = useState([]);
 
     function abrirModalCriarConta(e) {
         e.preventDefault();
@@ -59,6 +58,7 @@ function Header(props) {
         signInWithEmailAndPassword(auth, email, pass).then((userAuth) => {
             props.setUser(userAuth.user.displayName);
             alert('Logado com sucesso');
+            window.location.href = '/';
         }).catch((erro) => {
             alert(erro);
         });
@@ -66,42 +66,55 @@ function Header(props) {
 
     function uploadPost(e) {
         e.preventDefault();
-        let titulo = document.getElementById('titulo-upload');
+        let titulo = document.getElementById('titulo-upload').value;
         let prog = document.getElementById('progress-upload');
 
-        const uploadTask = uploadBytesResumable(ref(storage, 'image/' + file.nama), file);
+        const uploadTask = uploadBytesResumable(ref(storage, 'image/' + file.name), file);
 
         uploadTask.on('state_changed',
             (snap) => {
                 let progIt = Math.round(snap.bytesTransferred / snap.totalBytes) * 100;
-                setProgress(prog);
+                setProgress(progIt);
             }, (erro) => {
                 alert(erro);
             }, (sucesso) => {
                 getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    let coll = collection(db, 'post');
+                    let coll = doc(collection(db, 'post'));
+                    (async () => {
+                        try {
+                            await setDoc(coll, {
+                                titulo: titulo,
+                                image: url,
+                                userName: props.user,
+                                timestamp: new Date()
+                            });
 
-                    var setItens = async () => {
-                        let resp = await addDoc(coll, {
-                            name: 11,
-                            titulo: titulo,
-                            image: url,
-                            userName: props.name,
-                            timestamp: new Date()
-                        });
-                        console.log(resp);
-                    };
-                    setItens();
-                    setProgress(0);
-                    setFile(null);
-                    alert('Upload concluido com sucesso!');
-                    document.getElementById('upload-form').reset();
+                            setProgress(0);
+                            setFile(null);
+                            alert('Upload concluido com sucesso!');
+                            document.getElementById('upload-form').reset();
+                            fecharModalUpload();
+                            window.location.href = '/';
+                        } catch (erro) {
+                            alert(erro);
+                        }
+                    })();
+
+
                 });
             });
     }
 
+    function deslogar(e) {
+        e.preventDefault();
+        auth.signOut().then((val) => {
+            props.setUser(null);
+            window.location.href = '/';
+        })
+    }
+
     return (
-        <div className='header'>
+        <header className='header'>
 
             <div className="modalCriarConta">
                 <div className="formCriarConta">
@@ -136,9 +149,10 @@ function Header(props) {
 
             {
                 (props.user)
-                    ? <div className='use'>
+                    ? <div className='user'>
                         <span>Olá, {props.user}</span>
                         <a onClick={(e) => { abrirModalUpload(e) }} href='#'>Postar!</a>
+                        <a onClick={(e) => deslogar(e)} href='#'>Deslogar!</a>
                     </div>
                     : <form onSubmit={(e) => { logar(e) }} className="formLogin">
                         <input id='login-email' type="text" name='user' placeholder='Digite o usuario...' />
@@ -147,7 +161,7 @@ function Header(props) {
                         <a onClick={(e) => abrirModalCriarConta(e)} href='#'>Criar conta!</a>
                     </form>
             }
-        </div>
+        </header>
     );
 }
 

@@ -57,13 +57,13 @@ body{
     font-size: 15px;
 }
 
-.use span{
+.user span{
     font-weight: bold;
     font-size: 25px;
     margin-right: 15px;
 }
 
-.use a{
+.user a{
     background: rgb(5, 13, 244);
     color: white;
     border-radius: 5px;
@@ -179,6 +179,8 @@ body{
 background: white;
 max-width: 700px;
 margin: 10px auto;
+box-shadow: 0 0 3px black;
+padding-bottom: 40px;
 }
 
 .postSingle img{
@@ -198,6 +200,7 @@ margin: 10px auto;
     height: 120px;
     border: 1px solid #ccc;
     padding: 10px;
+    resize: none;
 }
 
 .postSingle input[type=submit]{
@@ -206,4 +209,22 @@ margin: 10px auto;
     color: white;
     border: 0;
     padding: 8px 10px;
+}
+
+section{
+    background: #eee;
+}
+
+.coments{
+    margin-left: 20px;
+}
+
+.coments h2{
+    color: #4b4b4b;
+    border-bottom: 1px solid #4b4b4b;
+    padding: 8px 0;
+}
+
+.coments-single p{
+    font-size: 145px;
 }
