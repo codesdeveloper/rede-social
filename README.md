@@ -12,11 +12,8 @@
 
 ### Comandos para inicia aplicação:]
 
-* <small><b>
-npm install react-scripts --save
-<br/>
-npm start
-</b></small>
+* <small><b> npm install react-scripts --save </b></small>
+* <small><b>  npm start </b></small>
 
 ## Video demostrativo
 
