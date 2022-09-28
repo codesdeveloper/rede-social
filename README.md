@@ -5,9 +5,12 @@
 <br/>
 
 * Configurações Firebase para começar:
+
+<br/>
+
 ![alt text](captura-firebase.png)
 
-### Comandos para inicia aplicação:
+### Comandos para inicia aplicação:]
 
 * <small><b>
 npm install react-scripts --save
